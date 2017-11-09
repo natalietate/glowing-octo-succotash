@@ -36,12 +36,11 @@ end
 #   redirect "/todo?user=#{username}" # send user to dashboard page that matches their username - passing params via URL
 # end
 
-# With sessions, so it's accessible on any given page
+# This post is with sessions, so it's accessible on any given page
 # This post call happens when user clicks submit
-
 post '/login' do
   username = params[:username].downcase
-  user = User.find_or_create_by(username: username) #find or create based on username that's passed in
-  session[:user_id] = user_id
+  user = User.find_or_create_by(username: username) # find or create based on username that is passed in
+  session[:user_id] = user.id
   redirect "/todo"
 end
