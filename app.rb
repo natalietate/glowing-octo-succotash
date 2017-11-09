@@ -11,12 +11,6 @@ get '/' do
   erb :index
 end
 
-# Providing model information to the view
-# requires an instance variable (prefixing with the '@' symbol)
-
-# Example 'User' index route
-
-# get '/users' do
-#   @users = User.all
-#   erb :users
-# end
+get '/todo' do
+  erb :todo
+end
