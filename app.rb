@@ -1,3 +1,5 @@
+# NOTE users for testing: tater, natalie
+
 require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/activerecord'
@@ -9,16 +11,19 @@ enable :sessions
 # Database configuration
 set :database, 'sqlite3:development.sqlite3'
 
+## helper methods ##
+
 # This method lets you check your session hash for an ID and return the user ID or nil
 def current_user
-  User.find_by_id(session[:user_id])
+  @user ||= User.find_by_id(session[:user_id])
 end
 
+# if user is not logged in, will redirect home
 def authenticate_user
   redirect '/' if current_user.nil?
 end
 
-# Define routes below
+## routes ##
 get '/' do
   if current_user
     redirect '/todo'
@@ -29,7 +34,6 @@ end
 
 get '/todo' do
   authenticate_user
-  @user = current_user
   erb :todo
 end
 
@@ -42,21 +46,18 @@ end
 
 post '/todo' do
   authenticate_user
-  @user = current_user
   @user.lists.create(title: params[:title])
   redirect '/todo'
 end
 
 get '/todo/new' do
   authenticate_user
-  @user = current_user
   erb :'lists/new'
 end
 
 
 get '/todo/:id' do
   authenticate_user
-  @user = current_user
   @list = List.find_by_id(params[:id])
   erb :'lists/show'
 end
