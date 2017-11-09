@@ -4,7 +4,11 @@
   <h3>Your Categories</h3>
   <ul>
     <% @user.lists.each do |list| %>
-    <li><%= list.title %></li>
+    <li>
+      <a href="/todo/<%=list.id%>">
+        <%= list.title %>
+      </a>
+    </li>
     <% end %>
   </ul>
 </div>

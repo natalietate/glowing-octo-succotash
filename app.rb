@@ -40,7 +40,7 @@ get '/logout' do
 end
 
 
-get '/todo:id' do
+get '/todo/:id' do
   @user = current_user
   if @user.nil?
     redirect '/'
