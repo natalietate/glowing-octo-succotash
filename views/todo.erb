@@ -3,9 +3,9 @@
 <div>
   <h3>Your Categories</h3>
   <ul>
-    <li>Running Goals</li>
-    <li>Things to Bake</li>
-    <li>Cocktails to Make</li>
+    <% @user.lists.each do |list| %>
+    <li><%= list.title %></li>
+    <% end %>
   </ul>
 </div>
 
