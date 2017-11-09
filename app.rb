@@ -39,6 +39,25 @@ get '/logout' do
   redirect '/'
 end
 
+post '/todo' do
+  @user = current_user
+  if @user.nil?
+    redirect '/'
+  else
+    @user.lists.create(title: params[:title])
+    redirect '/todo'
+  end
+end
+
+get '/todo/new' do
+  @user = current_user
+  if @user.nil?
+    redirect '/'
+  else
+    erb :'lists/new'
+  end
+end
+
 
 get '/todo/:id' do
   @user = current_user
