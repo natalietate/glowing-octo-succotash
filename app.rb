@@ -14,6 +14,10 @@ def current_user
   User.find_by_id(session[:user_id])
 end
 
+def authenticate_user
+  redirect '/' if current_user.nil?
+end
+
 # Define routes below
 get '/' do
   if current_user
@@ -24,12 +28,9 @@ get '/' do
 end
 
 get '/todo' do
+  authenticate_user
   @user = current_user
-  if @user.nil? # if the user is not there aka returns true, go home
-    redirect '/'
-  else
-    erb :todo
-  end
+  erb :todo
 end
 
 
@@ -40,33 +41,24 @@ get '/logout' do
 end
 
 post '/todo' do
+  authenticate_user
   @user = current_user
-  if @user.nil?
-    redirect '/'
-  else
-    @user.lists.create(title: params[:title])
-    redirect '/todo'
-  end
+  @user.lists.create(title: params[:title])
+  redirect '/todo'
 end
 
 get '/todo/new' do
+  authenticate_user
   @user = current_user
-  if @user.nil?
-    redirect '/'
-  else
-    erb :'lists/new'
-  end
+  erb :'lists/new'
 end
 
 
 get '/todo/:id' do
+  authenticate_user
   @user = current_user
-  if @user.nil?
-    redirect '/'
-  else
-    @list = List.find_by_id(params[:id])
-    erb :'lists/show'
-  end
+  @list = List.find_by_id(params[:id])
+  erb :'lists/show'
 end
 
 # # Without sessions, you would use this by iteself:
