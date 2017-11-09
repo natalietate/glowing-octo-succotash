@@ -16,5 +16,7 @@ get '/todo' do
 end
 
 post '/login' do
-  redirect '/todo'
+  username = params[:username].downcase # username is changed to lowercase - just an arbitrary thing for funsies
+  user = User.find_or_create_by(username: username) # find the username in database or create a new user using the username params
+  redirect "/todo?user=#{username}" # send user to dashboard page that matches their username - passing params via URL
 end
