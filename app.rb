@@ -39,6 +39,17 @@ get '/logout' do
   redirect '/'
 end
 
+
+get '/todo:id' do
+  @user = current_user
+  if @user.nil?
+    redirect '/'
+  else
+    @list = List.find_by_id(params[:id])
+    erb :'lists/show'
+  end
+end
+
 # # Without sessions, you would use this by iteself:
 # # This post call happens when user clicks submit
 # post '/login' do
