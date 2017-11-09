@@ -14,3 +14,7 @@ end
 get '/todo' do
   erb :todo
 end
+
+post '/login' do
+  redirect '/todo'
+end
