@@ -7,7 +7,7 @@ require './models'
 enable :sessions
 
 # Database configuration
-set :database, "sqlite3:development.sqlite3"
+set :database, 'sqlite3:development.sqlite3'
 
 # This method lets you check your session hash for an ID and return the user ID or nil
 def current_user
@@ -25,7 +25,18 @@ end
 
 get '/todo' do
   @user = current_user
-  erb :todo
+  if @user.nil? # if the user is not there aka returns true, go home
+    redirect '/'
+  else
+    erb :todo
+  end
+end
+
+
+# Clears the session hash to log out and sends user home
+get '/logout' do
+  session.clear
+  redirect '/'
 end
 
 # # Without sessions, you would use this by iteself:
@@ -36,11 +47,11 @@ end
 #   redirect "/todo?user=#{username}" # send user to dashboard page that matches their username - passing params via URL
 # end
 
-# This post is with sessions, so it's accessible on any given page
+# This post call uses sessions, so it's accessible on any given page
 # This post call happens when user clicks submit
 post '/login' do
   username = params[:username].downcase
   user = User.find_or_create_by(username: username) # find or create based on username that is passed in
   session[:user_id] = user.id
-  redirect "/todo"
+  redirect '/todo'
 end
