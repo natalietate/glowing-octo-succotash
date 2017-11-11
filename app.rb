@@ -50,11 +50,16 @@ post '/todo' do
   redirect '/todo'
 end
 
+post '/item' do
+  authenticate_user
+  @user.items.create(task: params[:task])
+  redirect '/todo'
+end
+
 get '/todo/new' do
   authenticate_user
   erb :'lists/new'
 end
-
 
 get '/todo/:id' do
   authenticate_user
